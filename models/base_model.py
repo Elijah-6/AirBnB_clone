@@ -29,14 +29,17 @@ class BaseModel:
                 created_at (datetime): Current datetime when the instance is created.
                 updated_at (datetime): Current datetime when the instance is created and updated during modifications.
         """
-        
+    
+        if not kwargs:
+            storage.new(self)
+            
         if kwargs:
             for key, value in kwargs.items():
                 if key != '__class__':
                     if key in ['created_at', 'updated_at']:
                         setattr(self, key, datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f'))
-                else:
-                    setattr(self, key, value)
+                    else:
+                        setattr(self, key, value)
             self.updated_at = datetime.now()
             
         else:
@@ -65,7 +68,7 @@ class BaseModel:
 
             Returns:
                 dict: A dictionary containing all keys/values of __dict__ and additional metadata.
-                  Keys include '__class__', 'created_at', and 'updated_at'.
+            Keys include '__class__', 'created_at', and 'updated_at'.
         """
         obj_dict = self.__dict__.copy()
         obj_dict['__class__'] = self.__class__.__name__
