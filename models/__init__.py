@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+"""Reloads models module"""
+
 from models.engine.file_storage import FileStorage
 
 storage = FileStorage()
