@@ -9,3 +9,5 @@
 - create (To create an an instance)
 - all (To get a dictionary of all instances created)
 - update (To update an instance)
+- Ctrl+D (To exit the shell)
+- destroy (To remove an instance)
