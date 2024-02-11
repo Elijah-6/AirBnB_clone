@@ -6,6 +6,7 @@ import os
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
+
 class TestFileStorage(unittest.TestCase):
     """Test class for the FileStorage class"""
     @classmethod
@@ -58,7 +59,7 @@ class TestFileStorage(unittest.TestCase):
 
         # Check if save method of FileStorage is called
         with self.assertRaises(AttributeError):
-            FileStorage.save_called  # Should raise AttributeError if save method is called
+            FileStorage.save_called
 
         # Restore original save method
         FileStorage.save = original_save_method
@@ -68,6 +69,7 @@ class TestFileStorage(unittest.TestCase):
         # Test if reload method doesn't raise exception when file doesn't exist
         self.storage._FileStorage__file_path = "non_existing_file.json"
         self.storage.reload()  # Should not raise any exception
+
 
 if __name__ == '__main__':
     unittest.main()

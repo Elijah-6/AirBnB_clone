@@ -6,10 +6,11 @@ import unittest
 from models.amenity import Amenity
 from models.base_model import BaseModel
 
+
 class TestAmenityModel(unittest.TestCase):
     """
     Test the AmenityModel class for the HBNB project
-    """    
+    """
     def setUp(self):
         self.amenity = Amenity()
 

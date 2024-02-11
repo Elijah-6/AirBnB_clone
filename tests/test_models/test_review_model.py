@@ -6,6 +6,7 @@ import unittest
 from models.review import Review
 from models.base_model import BaseModel
 
+
 class TestReviewModel(unittest.TestCase):
     """
     Test the TestReviewModel class for the HBNB project
@@ -34,7 +35,7 @@ class TestReviewModel(unittest.TestCase):
         self.assertTrue(hasattr(self.review, 'text'))
 
     def test_review_attributes_default_values(self):
-        """Test that the Review class has the correct default values for attributes"""
+        """Test that the Review class is workinf okay"""
         self.assertEqual(self.review.place_id, "")
         self.assertEqual(self.review.user_id, "")
         self.assertEqual(self.review.text, "")

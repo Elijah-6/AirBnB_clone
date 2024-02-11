@@ -2,7 +2,7 @@
 """Test the UserModel module for the HBNB project"""
 import unittest
 from models.user import User
-#from models.engine.file_storage import FileStorage
+# from models.engine.file_storage import FileStorage
 from console import HBNBCommand
 import os
 
@@ -61,6 +61,7 @@ class TestUserModel(unittest.TestCase):
         self.assertEqual(user_dict['password'], "")
         self.assertEqual(user_dict['first_name'], "")
         self.assertEqual(user_dict['last_name'], "")
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -6,6 +6,7 @@ import unittest
 from models.place import Place
 from models.base_model import BaseModel
 
+
 class TestPlaceModel(unittest.TestCase):
     """
     Test the PlaceModel class for the HBNB project

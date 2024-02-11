@@ -2,6 +2,7 @@
 
 """Create a cmd line from python cmd"""
 import cmd
+import sys
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -11,7 +12,9 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
+
 class HBNBCommand(cmd.Cmd):
+
     """Command interpreter class"""
     prompt = "(hbnb) "
 
@@ -76,7 +79,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_show(self, arg):
-        """Prints the string representation of an instance based on the class name and id"""
+        """Prints the str repr of an instance based on the cls name & id"""
         args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
@@ -119,7 +122,6 @@ class HBNBCommand(cmd.Cmd):
             objects = storage.all()
 
         print([str(v) for v in objects.values()])
-
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id"""
@@ -165,7 +167,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** invalid value type, must be a float **")
                     return
             else:
-                print("** invalid value type, must be a string, integer, or float **")
+                print("** Must be a string, integer, or float **")
                 return
 
             setattr(obj, attr_name, attr_value)
@@ -173,7 +175,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             setattr(obj, attr_name, attr_value)
             obj.save()
-
 
 
 if __name__ == '__main__':

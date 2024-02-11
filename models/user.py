@@ -3,6 +3,7 @@
 """User class module"""
 from models.base_model import BaseModel
 
+
 class User(BaseModel):
     """
     Class that defines a user
@@ -11,6 +12,7 @@ class User(BaseModel):
     password = ""
     first_name = ""
     last_name = ""
+
     def __init__(self, *args, **kwargs):
         """
         Initializes a user

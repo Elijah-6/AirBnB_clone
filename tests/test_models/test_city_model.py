@@ -6,6 +6,7 @@ import unittest
 from models.city import City
 from models.base_model import BaseModel
 
+
 class TestCityModel(unittest.TestCase):
     """
     Test the CityModel class for the HBNB project
