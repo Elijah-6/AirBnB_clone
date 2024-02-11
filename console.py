@@ -176,6 +176,28 @@ class HBNBCommand(cmd.Cmd):
             setattr(obj, attr_name, attr_value)
             obj.save()
 
+    def process_input(self, input_lines):
+        """Process input lines"""
+        interpreter = HBNBCommand()
+        interpreter.stdout = sys.stdout
+        # interpreter.stderr = sys.stderr
+        interpreter.use_rawinput = False
+
+        # Print prompt before processing input
+        print(interpreter.prompt, end="\n", flush=True)
+
+        for line in input_lines:
+            interpreter.onecmd(line.strip())
+
+        # Print prompt after processing input
+        print(interpreter.prompt, end="\n", flush=True)
+
 
 if __name__ == '__main__':
-    HBNBCommand().cmdloop()
+    if sys.stdin.isatty():
+        # Interactive mode
+        HBNBCommand().cmdloop()
+    else:
+        # Non-interactive mode
+        input_lines = sys.stdin.readlines()
+        HBNBCommand().process_input(input_lines)
