@@ -65,7 +65,7 @@ class BaseModel:
 
             Returns:
                 dict: A dictionary containing all keys/values of __dict__ and additional metadata.
-                  Keys include '__class__', 'created_at', and 'updated_at'.
+                Keys include '__class__', 'created_at', and 'updated_at'.
         """
         obj_dict = self.__dict__.copy()
         obj_dict['__class__'] = self.__class__.__name__
