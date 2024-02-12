@@ -1,0 +1,7 @@
+# .gitignore for Python projects
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore virtual environments
+venv/

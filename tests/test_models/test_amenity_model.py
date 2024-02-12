@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-#!/usr/bin/env bash
-=======
 #!/usr/bin/python3
->>>>>>> Stashed changes
 """
 Test the StateModel module for the HBNB project
 """
@@ -10,18 +6,11 @@ import unittest
 from models.amenity import Amenity
 from models.base_model import BaseModel
 
-<<<<<<< Updated upstream
 
 class TestAmenityModel(unittest.TestCase):
     """
     Test the AmenityModel class for the HBNB project
     """
-=======
-class TestAmenityModel(unittest.TestCase):
-    """
-    Test the AmenityModel class for the HBNB project
-    """    
->>>>>>> Stashed changes
     def setUp(self):
         self.amenity = Amenity()
 

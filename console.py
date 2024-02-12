@@ -3,6 +3,7 @@
 """Create a cmd line from python cmd"""
 import cmd
 import sys
+import re
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -11,6 +12,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+
 
 class HBNBCommand(cmd.Cmd):
     """Command interpreter class"""
@@ -69,11 +71,13 @@ class HBNBCommand(cmd.Cmd):
         Override the precmd method to modify the user command before execution.
         This method is called before executing each command.
         """
+        if not sys.stdin.isatty():
+            print()
+        if '.' in line and 'count()' in line:
+            modified_line = re.sub(r'(\w+)\.count\(\)', r'count \1', line)
+            return modified_line
         if '.' in line and 'all()' in line:
-            parts = line.split('.')
-            class_name = parts[0]
-            modified_line = 'all ' + class_name
-            print(modified_line)
+            modified_line = re.sub(r'(\w+)\.all\(\)', r'all \1', line)
             return modified_line
         print(line)
         return line
@@ -91,7 +95,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_show(self, arg):
-        """Prints the string representation of an instance based on the class name and id"""
+        """
+        Prints the string representation of an
+        instance based on the class name and id
+        """
         args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
@@ -125,8 +132,15 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """Prints all string representation of all instances"""
         args = arg.split()
+
         if args:
-            if any(args[0] not in key for key in storage.all().keys()):
+            class_name = args[0]
+
+            if not any(
+                key.startswith(class_name + ".")
+                    for key in storage.all().keys()
+                    ):
+
                 print("** class doesn't exist **")
                 return
             objects = {k: v for k, v in storage.all().items() if args[0] in k}
@@ -135,6 +149,24 @@ class HBNBCommand(cmd.Cmd):
 
         print([str(v) for v in objects.values()])
 
+    def do_count(self, arg):
+        """Prints the number of instances of a class"""
+        args = arg.split()
+        if len(args) == 0:
+            print("** class name missing **")
+            return
+        class_name = args[0]
+        if (
+            not any(
+                key.startswith(class_name + ".")
+                for key in storage.all().keys()
+                )
+                ):
+
+            print("** class doesn't exist **")
+            return
+        objects = {k: v for k, v in storage.all().items() if args[0] in k}
+        print(len(objects))
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id"""
@@ -142,14 +174,20 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         args = arg.split()
-        if args[0] not in storage.all():
+        class_name = args[0]
+
+        if not any(
+            key.startswith(class_name + ".")
+                for key in storage.all().keys()):
+
             print("** class doesn't exist **")
             return
+
         if len(args) == 1:
             print("** instance id missing **")
             return
         key = args[0] + '.' + args[1]
-        if key not in storage.all():
+        if key not in storage.all().keys():
             print("** no instance found **")
             return
         if len(args) == 2:
@@ -166,7 +204,7 @@ class HBNBCommand(cmd.Cmd):
         if hasattr(obj, attr_name):
             attr_type = type(getattr(obj, attr_name))
             if attr_type is str:
-                attr_value = str(attr_value)
+                attr_value = str(attr_value.strip('"'))
             elif attr_type is int:
                 try:
                     attr_value = int(attr_value)
@@ -180,7 +218,8 @@ class HBNBCommand(cmd.Cmd):
                     print("** invalid value type, must be a float **")
                     return
             else:
-                print("** invalid value type, must be a string, integer, or float **")
+                print("** invalid value type, must be a string, \
+                        integer, or float **")
                 return
 
             setattr(obj, attr_name, attr_value)
@@ -190,11 +229,5 @@ class HBNBCommand(cmd.Cmd):
             obj.save()
 
 
-
 if __name__ == '__main__':
-    # if len(sys.argv) > 1:
-    #     # Run in non-interactive mode
-    #     HBNBCommand().onecmd(' '.join(sys.argv[1:]))
-    # else:
-    #     # Run in interactive mode
     HBNBCommand().cmdloop()
