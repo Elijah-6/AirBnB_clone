@@ -70,5 +70,6 @@ class TestFileStorage(unittest.TestCase):
         self.storage._FileStorage__file_path = "non_existing_file.json"
         self.storage.reload()  # Should not raise any exception
 
+
 if __name__ == '__main__':
     unittest.main()

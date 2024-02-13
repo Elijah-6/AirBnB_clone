@@ -68,14 +68,14 @@ class TestBaseModel(unittest.TestCase):
             'example_attr': 'example_value'
 
         }
-        base_model = BaseModel(**base_model_dict)
+        basemodel = BaseModel(**base_model_dict)
 
         # Check if instance attributes are correctly set
-        self.assertEqual(base_model.id, '1')
-        self.assertEqual(base_model.created_at, datetime(2024, 2, 10, 12, 0, 0))
-        self.assertEqual(base_model.updated_at, datetime(2024, 2, 10, 12, 0, 0))
-        self.assertTrue(hasattr(base_model, 'example_attr'))
-        self.assertEqual(base_model.example_attr, 'example_value')
+        self.assertEqual(basemodel.id, '1')
+        self.assertEqual(basemodel.created_at, datetime(2024, 2, 10, 12, 0, 0))
+        self.assertEqual(basemodel.updated_at, datetime(2024, 2, 10, 12, 0, 0))
+        self.assertTrue(hasattr(basemodel, 'example_attr'))
+        self.assertEqual(basemodel.example_attr, 'example_value')
 
     def test_init_without_kwargs(self):
         """Tests if the init method can be called without keyword arguments"""
@@ -91,7 +91,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(base_model.updated_at, datetime)
 
     def test_init_with_invalid_kwargs(self):
-        """Tests if the init method raises an error for invalid keyword arguments"""
+        """Tests if the init method raises an error"""
         # Create a BaseModel instance with invalid kwargs
         base_model_dict = {
             '__class__': 'BaseModel',  # should not be added as an attribute
@@ -101,22 +101,23 @@ class TestBaseModel(unittest.TestCase):
         base_model = BaseModel(**base_model_dict)
 
         # Check if only valid attributes are added
-        #self.assertFalse(hasattr(base_model, '__class__'))
-        #self.assertFalse(hasattr(base_model, 'invalid_attr'))
+        # self.assertFalse(hasattr(base_model, '__class__'))
+        # self.assertFalse(hasattr(base_model, 'invalid_attr'))
 
     def test_to_dict_round_trip(self):
-        """Tests if the to_dict method can be called on a BaseModel instance and round-trip"""
+        """Tests if the to_dict method can be called on a BaseModel instance"""
         # Create a BaseModel instance
-        base_model = BaseModel()
-        base_model_dict = base_model.to_dict()
+        basemodel = BaseModel()
+        base_model_dict = basemodel.to_dict()
 
         # Recreate a BaseModel instance from the dictionary representation
         recreated_base_model = BaseModel(**base_model_dict)
 
         # Check if the recreated instance matches the original instance
-        self.assertEqual(base_model.id, recreated_base_model.id)
-        self.assertEqual(base_model.created_at, recreated_base_model.created_at)
-        self.assertEqual(base_model.updated_at, recreated_base_model.updated_at)
+        self.assertEqual(basemodel.id, recreated_base_model.id)
+        self.assertEqual(basemodel.created_at, recreated_base_model.created_at)
+        self.assertEqual(basemodel.updated_at, recreated_base_model.updated_at)
+
 
 if __name__ == '__main__':
     unittest.main()

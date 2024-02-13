@@ -61,5 +61,6 @@ class TestUserModel(unittest.TestCase):
         self.assertEqual(user_dict['first_name'], "")
         self.assertEqual(user_dict['last_name'], "")
 
+
 if __name__ == '__main__':
     unittest.main()

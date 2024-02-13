@@ -36,7 +36,7 @@ class TestReviewModel(unittest.TestCase):
 
     def test_review_attributes_default_values(self):
 
-        """Test that the Review class has the correct default values for attributes"""
+        """Test that the Review class has the correct default values"""
         self.assertEqual(self.review.place_id, "")
         self.assertEqual(self.review.user_id, "")
         self.assertEqual(self.review.text, "")

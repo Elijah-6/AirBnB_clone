@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
-
-"""Create a cmd line from python cmd"""
+#!/usr/bin/python3
+"""Command interpreter module"""
 import cmd
 import sys
-import re
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -12,6 +10,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+cl = ['User', 'State', 'City', 'Amenity', 'Place', 'Review', 'BaseModel']
 
 
 class HBNBCommand(cmd.Cmd):
@@ -66,22 +65,6 @@ class HBNBCommand(cmd.Cmd):
         print("Updates an instance based on the class name and ID")
         print()
 
-    def precmd(self, line):
-        """
-        Override the precmd method to modify the user command before execution.
-        This method is called before executing each command.
-        """
-        if not sys.stdin.isatty():
-            print()
-        if '.' in line and 'count()' in line:
-            modified_line = re.sub(r'(\w+)\.count\(\)', r'count \1', line)
-            return modified_line
-        if '.' in line and 'all()' in line:
-            modified_line = re.sub(r'(\w+)\.all\(\)', r'all \1', line)
-            return modified_line
-        print(line)
-        return line
-
     def do_create(self, line):
         """Create a new instance of BaseModel"""
         if not line:
@@ -95,10 +78,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_show(self, arg):
-        """
-        Prints the string representation of an
-        instance based on the class name and id
-        """
+        """Prints the string representation of an instance"""
         args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
@@ -130,43 +110,50 @@ class HBNBCommand(cmd.Cmd):
         storage.save()
 
     def do_all(self, arg):
-        """Prints all string representation of all instances"""
+        """Prints string representations of all instances"""
+
+        # Split the input into individual arguments
         args = arg.split()
 
-        if args:
+        if len(args) == 0:
+            # If no arguments provided.
+            objects = storage.all().values()
+            print([str(v) for v in objects])
+            return
+
+        if len(args) == 1:
+            # If only one argument provided
+            if args[0].endswith('.all()'):
+                cls_name = args[0][:-6]
+                if cls_name not in cl:
+                    print("** class doesn't exist **")
+                    return
+                y = [x for x in storage.all().values() if isinstance(x, eval(cls_name))]
+                print([str(x) for x in y])
+                return
+
+            # If argument is a class name
             class_name = args[0]
-
-            if not any(
-                key.startswith(class_name + ".")
-                    for key in storage.all().keys()
-                    ):
-
+            if class_name not in cl:
                 print("** class doesn't exist **")
                 return
-            objects = {k: v for k, v in storage.all().items() if args[0] in k}
-        else:
-            objects = storage.all()
-
-        print([str(v) for v in objects.values()])
-
-    def do_count(self, arg):
-        """Prints the number of instances of a class"""
-        args = arg.split()
-        if len(args) == 0:
-            print("** class name missing **")
+            y = [x for x in storage.all().values() if isinstance(x, eval(class_name))]
+            print([str(x) for x in y])
             return
-        class_name = args[0]
-        if (
-            not any(
-                key.startswith(class_name + ".")
-                for key in storage.all().keys()
-                )
-                ):
 
-            print("** class doesn't exist **")
-            return
-        objects = {k: v for k, v in storage.all().items() if args[0] in k}
-        print(len(objects))
+        if len(args) == 2:
+            # If two arguments provided.
+            if args[0] == 'all':
+                cls_name = args[1]
+                if cls_name not in cl:
+                    print("** class doesn't exist **")
+                    return
+                y = [x for x in storage.all().values() if isinstance(x, eval(cls_name))]
+                print([str(x) for x in y])
+                return
+
+        # Invalid arguments
+        print("** invalid command format **")
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id"""
@@ -174,20 +161,14 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         args = arg.split()
-        class_name = args[0]
-
-        if not any(
-            key.startswith(class_name + ".")
-                for key in storage.all().keys()):
-
+        if args[0] not in storage.all():
             print("** class doesn't exist **")
             return
-
         if len(args) == 1:
             print("** instance id missing **")
             return
         key = args[0] + '.' + args[1]
-        if key not in storage.all().keys():
+        if key not in storage.all():
             print("** no instance found **")
             return
         if len(args) == 2:
@@ -204,7 +185,7 @@ class HBNBCommand(cmd.Cmd):
         if hasattr(obj, attr_name):
             attr_type = type(getattr(obj, attr_name))
             if attr_type is str:
-                attr_value = str(attr_value.strip('"'))
+                attr_value = str(attr_value)
             elif attr_type is int:
                 try:
                     attr_value = int(attr_value)
@@ -218,8 +199,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** invalid value type, must be a float **")
                     return
             else:
-                print("** invalid value type, must be a string, \
-                        integer, or float **")
+                print("** invalid value type, must be a string, integer, or float **")
                 return
 
             setattr(obj, attr_name, attr_value)
@@ -227,6 +207,73 @@ class HBNBCommand(cmd.Cmd):
         else:
             setattr(obj, attr_name, attr_value)
             obj.save()
+
+    def do_count(self, arg):
+        """Prints the number of instances of a class"""
+        if not arg:
+            print("** class name missing **")
+            return
+
+        class_name = arg.split()[0]
+        classes = storage.all().keys()
+        class_counts = [key.split('.')[0] for key in classes]
+
+        if class_name not in class_counts:
+            print("** class doesn't exist **")
+            return
+
+        count = sum(1 for key in classes if key.split('.')[0] == class_name)
+        print(count)
+
+    def default(self, line):
+        """Excecutes for any other command"""
+        if line.endswith('all()'):
+            class_name = line.split('.')[0]
+            self.do_all(class_name)
+
+        elif line.endswith('count()'):
+            class_name = line.split('.')[0]
+            self.do_count(class_name)
+
+        elif 'show(' in line:
+            args = line.split('.')
+            if len(args) != 2 or 'show(' not in args[1]:
+                print("** invalid command format **")
+                return
+            class_name, rest = args
+            instance_id = rest.split('(')[1].strip(')\"\'')
+            self.do_show(f"{class_name.strip()} {instance_id}")
+
+        elif 'destroy(' in line:
+            args = line.split('.')
+            if len(args) != 2 or 'destroy(' not in args[1]:
+                print("** invalid command format **")
+                return
+            class_name, rest = args
+            instance_id = rest.split('(')[1].strip(')\"\'')
+            self.do_destroy(f"{class_name.strip()} {instance_id}")
+
+        elif 'update(' in line:
+            args = line.split('.')
+            if len(args) != 2 or 'update(' not in args[1]:
+                print("** invalid command format **")
+                return
+            cls, rest = args
+            d, name, value = rest.split('(')[1].strip(')\"\'').split(',')
+            self.do_update(f"{cls.strip()} {d.strip()} {name.strip()} {value.strip()}")
+
+        elif 'update(' in line:
+            args = line.split('.')
+            if len(args) != 2 or 'update(' not in args[1]:
+                print("** invalid command format **")
+                return
+            class_name, rest = args
+            instance_id, attr_dict_str = rest.split('(')[1].strip(')\"\'').split(',', 1)
+            attr_dict = eval(attr_dict_str.strip())
+            self.do_update(f"{class_name.strip()} {instance_id.strip()} {attr_dict}")
+
+        else:
+            print("Invalid command")
 
 
 if __name__ == '__main__':
