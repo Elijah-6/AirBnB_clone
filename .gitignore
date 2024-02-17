@@ -2,6 +2,7 @@
 *.pyc
 *.pyo
 __pycache__/
+file.json
 
 # Ignore virtual environments
 venv/
