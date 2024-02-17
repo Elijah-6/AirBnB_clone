@@ -1,0 +1,24 @@
+header {
+    background-color: white;
+    height: 70px;
+    width: 100%;
+    display: flex;
+    border-bottom: 1px solid #CCCCCC;
+    /* justify-content: center; */
+    align-items: left;
+    text-align: center;
+}
+
+header > div.logo {
+    margin-left: 20px;
+    width: 50px;
+    /* Set the width of your logo */
+    height: 50px;
+    /* Set the height of your logo */
+    background-image: url('../images/logo.png');
+    /* Adjust the path accordingly */
+    background-size: contain;
+    /* Adjust the background size as needed */
+    background-repeat: no-repeat;
+    background-position: center center;
+}
