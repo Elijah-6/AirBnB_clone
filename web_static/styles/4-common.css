@@ -3,11 +3,19 @@ body {
     padding: 0;
     color: #484848;
     font-size: 14px;
-    font-family:Circular,
+    font-family: Circular,
         "Helvetica Neue",
         Helvetica,
         Arial,
         sans-serif;
     justify-content: center;
     align-items: center;
+}
+
+div.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
 }
