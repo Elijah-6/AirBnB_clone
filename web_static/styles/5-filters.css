@@ -24,3 +24,21 @@ div.container>.filters {
 .btn__search:hover {
     opacity: 0.9;
 }
+
+.filters > div{
+    height: 100%;
+    width: 25%;
+}
+.filters > .locations{
+    border-right: 1px solid #DDDDDD;
+}
+
+div > h3.title {
+    font-weight: 600;
+}
+
+div > h4.subtitle {
+    font-weight: 400;
+    font-size: 14px;
+}
+
