@@ -11,9 +11,6 @@ header {
 header > div.logo {
     margin-left: 20px;
     width: 70px;
-    /* Set the width of your logo */
-    /* height: 50px; */
-    /* Set the height of your logo */
     background-image: url('../images/logo.png');
     /* Adjust the path accordingly */
     background-size: contain;

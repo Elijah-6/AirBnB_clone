@@ -12,6 +12,7 @@
     align-items: center;
     justify-content: center;
 }
+
 .article {
     width: 390px;
     padding: 20px;
@@ -44,9 +45,9 @@
 .information {
     height: 80px;
     border-top: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
     display: flex;
     justify-content: space-around;
-    border-bottom: 1px solid #DDDDDD;
 }
 
 .max_guest,
@@ -66,20 +67,20 @@
     align-self: center;
 }
 
-.max_guests > .icon {
+.max_guests>.icon {
     background-image: url(../images/icon_group.png);
     background-repeat: no-repeat;
 }
 
 
-.number_rooms > .icon {
+.number_rooms>.icon {
     background-image: url(../images/icon_bed.png);
     background-repeat: no-repeat;
 }
 
 
 
-.number_bathrooms > .icon {
+.number_bathrooms>.icon {
     background-image: url(../images/icon_bath.png);
     background-repeat: no-repeat;
 }
