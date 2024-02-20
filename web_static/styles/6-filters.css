@@ -28,6 +28,8 @@
 .filters>div {
     height: 100%;
     width: 25%;
+    display: flex;
+    flex-direction: column;
     text-align: center;
     border-radius: 4px;
     z-index: 1;
@@ -35,7 +37,6 @@
 
 .filters>.locations {
     border-right: 1px solid #DDDDDD;
-    height: 100%;
 }
 
 .locations:hover .popover,
@@ -67,9 +68,11 @@
 
 div>h3.title {
     font-weight: 600;
+    margin-bottom: 0;
 }
 
 div>h4.subtitle {
     font-weight: 400;
     font-size: 14px;
+    margin-top: 0;
 }
