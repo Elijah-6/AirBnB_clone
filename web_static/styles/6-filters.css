@@ -1,4 +1,4 @@
-div.container>.filters {
+.filters {
     background-color: white;
     height: 70px;
     width: 100%;
@@ -28,27 +28,28 @@ div.container>.filters {
 .filters>div {
     height: 100%;
     width: 25%;
-    padding-left: 20px;
+    text-align: center;
+    border-radius: 4px;
+    z-index: 1;
 }
 
 .filters>.locations {
     border-right: 1px solid #DDDDDD;
-    background-color: #FAFAFA;
-    border-radius: 4px;
     height: 100%;
-    z-index: 1;
 }
 
-.filters:hover .popover {
+.locations:hover .popover,
+.amenities:hover .popover {
     display: block;
 }
 
 .popover {
     display: none;
+    border: 1px solid #DDDDDD;
 }
 
 .popover, ul{
-    /* color: #FAFAFA; */
+    background-color: #FAFAFA;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -56,11 +57,6 @@ div.container>.filters {
 
 .popover li {
     padding: 10px;
-    border-bottom: 1px solid #DDDDDD;
-}
-
-.popover li:last-child {
-    border-bottom: none;
 }
 
 .popover h2 {

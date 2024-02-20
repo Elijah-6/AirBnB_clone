@@ -64,7 +64,6 @@
 .icon {
     height: 60px;
     width: 60px;
-    align-self: center;
 }
 
 .max_guests>.icon {
@@ -92,3 +91,4 @@
 .description {
     margin-top: 20px;
 }
+
